@@ -1,0 +1,21 @@
+&uart0 {
+	current-speed = <115200>;
+};
+
+&timer0 {
+    status = "okay";
+	// interrupts = < 0x8 0x1 >; // IRQ 8, prioridad
+	// prescaler = < 0x0 >; // Frec = 16MHz / 2^prescaler
+};
+
+&timer1 {
+    status = "okay";
+	interrupts = < 9 3 >; // IRQ 8, prioridad
+	// prescaler = < 0x0 >; // Frec = 16MHz / 2^prescaler
+};
+
+&timer2 {
+    status = "okay";
+	// interrupts = < 0x8 0x1 >; // IRQ 8, prioridad
+	// prescaler = < 0x0 >; // Frec = 16MHz / 2^prescaler
+};

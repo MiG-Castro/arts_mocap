@@ -1,0 +1,6 @@
+Agregar librerías personalizadas
+- crear .c (código principal)
+- crear .h (definiciones y declaración de funciones)
+- guardar .c y .h en el directorio del main.c
+- En config files -> Application -> CMakeList.txt
+  - Agregar "librería.c" a target_sources

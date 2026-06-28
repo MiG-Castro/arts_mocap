@@ -1,0 +1,98 @@
+# LSM6DSV16X IMU Driver Configuration
+
+config LSM6DSV16X
+	bool "LSM6DSV16X 6-axis IMU with SFLP"
+	depends on I2C
+	help
+	  Enable driver for LSM6DSV16X 6-axis IMU sensor with
+	  embedded sensor fusion (SFLP).
+	  
+	  Features:
+	  - 3-axis accelerometer (±2/±4/±8/±16 g)
+	  - 3-axis gyroscope (±125/±250/±500/±1000/±2000/±4000 dps)
+	  - Sensor Fusion Low Power (SFLP) for quaternion output
+	  - 4.5 KB FIFO
+	  - Configurable filters
+
+if LSM6DSV16X
+
+config LSM6DSV16X_LOG_LEVEL
+	int "Log level for LSM6DSV16X driver"
+	default 3
+	range 0 4
+	help
+	  Sets log level for LSM6DSV16X driver.
+	  Levels are:
+	  0 = OFF
+	  1 = ERROR
+	  2 = WARNING
+	  3 = INFO
+	  4 = DEBUG
+
+config LSM6DSV16X_I2C_ADDR
+	hex "I2C address"
+	default 0x6B
+	range 0x6A 0x6B
+	help
+	  I2C address of the LSM6DSV16X sensor.
+	  0x6A when SA0 pin is connected to GND
+	  0x6B when SA0 pin is connected to VDD (default)
+
+config LSM6DSV16X_ACCEL_FS_DEFAULT
+	int "Default accelerometer full scale"
+	default 4
+	help
+	  Default accelerometer full scale in g.
+	  Valid values: 2, 4, 8, 16
+
+config LSM6DSV16X_GYRO_FS_DEFAULT
+	int "Default gyroscope full scale"
+	default 2000
+	help
+	  Default gyroscope full scale in dps.
+	  Valid values: 125, 250, 500, 1000, 2000, 4000
+
+config LSM6DSV16X_ACCEL_ODR_DEFAULT
+	int "Default accelerometer ODR"
+	default 120
+	help
+	  Default accelerometer output data rate in Hz.
+	  Valid values: 0 (off), 1.875, 7.5, 15, 30, 60, 120, 240, 
+	                480, 960, 1920, 3840, 7680
+
+config LSM6DSV16X_GYRO_ODR_DEFAULT
+	int "Default gyroscope ODR"
+	default 120
+	help
+	  Default gyroscope output data rate in Hz.
+	  Valid values: 0 (off), 7.5, 15, 30, 60, 120, 240,
+	                480, 960, 1920, 3840, 7680
+
+config LSM6DSV16X_SFLP_ENABLE_DEFAULT
+	bool "Enable SFLP by default"
+	default n
+	help
+	  Enable Sensor Fusion Low Power (SFLP) by default.
+	  When enabled, quaternion data will be available in FIFO.
+
+config LSM6DSV16X_SFLP_ODR_DEFAULT
+	int "Default SFLP ODR"
+	default 120
+	depends on LSM6DSV16X_SFLP_ENABLE_DEFAULT
+	help
+	  Default SFLP output data rate in Hz.
+	  Valid values: 15, 30, 60, 120, 240, 480
+
+config LSM6DSV16X_ACCEL_LPF_ENABLE
+	bool "Enable accelerometer low-pass filter"
+	default y
+	help
+	  Enable LPF2 (Low Pass Filter 2) for accelerometer.
+
+config LSM6DSV16X_GYRO_LPF_ENABLE
+	bool "Enable gyroscope low-pass filter"
+	default y
+	help
+	  Enable LPF1 (Low Pass Filter 1) for gyroscope.
+
+endif # LSM6DSV16X

@@ -1,0 +1,60 @@
+___________________________________________________________________
+COMANDOS UART
+[0x7E] [LEN PAYLOAD] [CMD] [PAYLOAD] [0x7F]
+
+7E 00 17 7F                   // ON UART-TX
+7E 00 16 7F                   // OFF UART-TX
+7E 06 10 FF 02 0A 00 00 00 7F //stop pkt = 10 (0A)
+7E 06 10 FF 02 01 00 00 00 7F //stop pkt = 01 (01)
+7E 03 10 FF 01 01 7F          // Start All
+
+#define CMD_TYPE_SAMP_CTRL_P 0x15
+#define CMD_TYPE_TX_UART_OFF 0x16
+#define CMD_TYPE_TX_UART_ON  0x17
+#define CMD_TYPE_PRINT_OFF   0x18
+#define CMD_TYPE_PRINT_ON    0x19
+#define CMD_TYPE_START_SCAN  0x20
+#define CMD_TYPE_STOP_SCAN   0x21
+#define CMD_TYPE_DISCONNECT  0x22
+#define CMD_UPDATE_PARAMS    0x23
+
+// To the peripherals
+#define CMD_SYNC_START       0x24
+#define CMD_SIMP_START       0x25
+#define CMD_STOP_PKT         0x26
+#define CMD_START_TX         0x27
+#define CMD_FIRST_WRT        0x28
+#define CMD_TYPE_SEND_CMD    0x30
+
+SensorData_ON                0x01
+SensorData_OFF               0x02
+ExDetec_ON                   0x03
+ExDetec_OFF                  0x04
+___________________________________________________________________
+
+Examples:
+- 7E 00 13 7F		sync on
+- 7E 00 14 7F		sync off
+- 7E 00 20 7F		scan on
+- 7E 00 21 7F		scan off
+- 7E 01 22 01 7F	disconnect 01
+- 7E 01 22 FF 7F        disconnect ff
+- 7E 02 30 FF 27 7F	Start All
+- 7E 02 30 FF 29 7F	Stop all
+
+
+msg payload for the peripherals------------------------------------
+                CMD   Pkt structure                            Size
+1. sync start   0x24  [CMD:1B][Fs:2B][Dus:4B][sxp:1B][ns:4B] = 12B
+                      [0]     [1:2]  [3:6]   [7     ][8:11 ]
+-------------------------------------------------------------------
+2. simple start 0x25  [CMD:1B][Fs:2B][Dms:2B][sxp:1B]        =  6B  
+                      [0]     [1:2]  [3:4]   [5     ]
+-------------------------------------------------------------------
+3. Stop pkt     0x26  [CMD:1B][ON:1B][pkt:4B][Tx:1B][tm:1B]  =  8B
+                      [0]     [1]    [2:5]   [6    ][7    ]
+-------------------------------------------------------------------
+4. Start        0x27  [CMD:1B]                               =  1B
+-------------------------------------------------------------------
+5. First Write  0x28  [CMD:1B]                               =  1B
+-------------------------------------------------------------------

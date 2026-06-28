@@ -1,0 +1,22 @@
+BLE Packet
+preamble + Addr + PDU   + CRC
+1        + 4    + 2-257 + 3
+
+PDU
+Header + Payload + MIC (Opcional)
+2      + 0-255   + 4
+
+Payload
+L2CAP + ATT_H + ATT Data
+4     + 3     + 0-244
+
+Calculo de length máximo de headers
+1 + 4 + 3 + 2 + 4 + 4 + 3 = 21 headers
+21 headers + 20 carga util = 328us  (paquete típico/default de BLE)
+
+Paquete de ACK -> empty PDU
+10 header (1 + 4 + 3 + 2) = 80us
+
+IFS = 150us
+
+

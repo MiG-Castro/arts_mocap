@@ -1,0 +1,18 @@
+/*
+ * Copyright (c) 2024 Nordic Semiconductor ASA
+ *
+ * SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
+ */
+&uart0 {
+     //delete-property/ hw-flow-control;
+    compatible = "nordic,nrf-uarte";
+    status = "okay";
+    current-speed = <115200>;
+};
+
+/ {
+    chosen {
+        zephyr,console = &uart0;
+        zephyr,shell-uart = &uart0;
+    };
+};

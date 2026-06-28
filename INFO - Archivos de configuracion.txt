@@ -1,0 +1,34 @@
+CMakeLists.txt
+Qué afecta: El proceso de compilación.
+Qué controla:
+Archivos fuente: Le dice al compilador qué archivos .c y .h forman parte de tu aplicación (target_sources).
+Inclusión de librerías: Puede incluir librerías o módulos externos.
+Definiciones del preprocesador: Puede pasarle #define al compilador.
+Dependencias: Define de qué otros componentes de Zephyr depende tu aplicación.
+En resumen: Es el "director de orquesta" del build. Define qué se compila.
+
+prj.conf
+Qué afecta: La configuración del kernel y los subsistemas de Zephyr.
+Qué controla:
+Habilitación de módulos: Activa o desactiva subsistemas enteros (ej: CONFIG_BT=y, CONFIG_GPIO=y).
+Parámetros de módulos: Configura el comportamiento de los módulos habilitados (ej: CONFIG_BT_DEVICE_NAME="Mi_Dispositivo").
+Tamaño de recursos: Define el tamaño de pilas (stacks), colas (queues) y buffers (ej: CONFIG_MAIN_STACK_SIZE=2048).
+Selección de drivers: Especifica qué drivers de hardware usar.
+En resumen: Es el "panel de control" del firmware. Define cómo se comportan los componentes compilados.
+
+Kconfig
+Qué afecta: El sistema de configuración (Kconfig).
+Qué controla:
+Define nuevas opciones CONFIG_: Permite crear tus propias opciones de configuración que luego pueden ser usadas en prj.conf y en el código C.
+Establece dependencias: Puedes hacer que una opción dependa de otra (ej: "solo mostrar la opción CONFIG_MI_SENSOR si CONFIG_I2C está habilitado").
+Crea menús: Organiza las opciones en una estructura de menús para herramientas de configuración gráfica (como menuconfig).
+En resumen: Es el "diccionario" de todas las opciones de configuración posibles. Define qué se puede configurar.
+
+Device Tree Overlay (.overlay)
+Qué afecta: La descripción del hardware (Device Tree).
+Qué controla:
+Asignación de pines: Define qué pines del microcontrolador se usan para qué periférico (ej: "el pin P0.06 es el TX del UART0").
+Habilitación de periféricos: Activa o desactiva periféricos de hardware en la placa (status = "okay").
+Propiedades de periféricos: Configura propiedades específicas del hardware (ej: la velocidad del I2C, la dirección de un sensor).
+Creación de alias: Asigna nombres amigables a los nodos del hardware (ej: led0 = &gpio0;).
+En resumen: Es el "mapa del hardware" de tu placa. Define qué hardware se usa y cómo está conectado.

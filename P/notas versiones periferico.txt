@@ -1,0 +1,140 @@
+IMU Node v0
+Primera version de proyecto IMU NODE
+Uso de librerias personalizadas de:
+- Perfil IMU
+  - Notificaciones de datos de sensores
+  - Indicaciones de "deteccion de ejercicios"
+- Sensor BN055
+  - Configuracion basica (reset, cambio de cristal, offsets etc.)
+  - Lectura de datos crudos
+  - Conversion de datos a unidades
+
+lectura de acc y envió de datos en el mismo hilo
+
+lectura de acc y envió de datos en el mismo hilo
+Periferico solicita actualización de parámetros!
+- Solicitudes concurrentes!!
+
+nota: librería ble incompleta!
+
+================================================================================
+
+IMU Node vMailBox 00
+- Interrupcion para sensado
+  - La lectura se delega a una cola de trabajo (work queue) dedicada.
+- Empaquetado de Datos
+   - Agrupa dos muestras consecutivas del acelerómetro + número de secuencia en un único paquete de datos.
+- BLE
+  - Solicita la actualización de parámetros de manera concurrente
+  - Comandos de inicio & stop mediante característica exercise_detection (indicate&write)
+- Siempre se intenta transmitir la ultima muestra!!!
+
+================================================================================
+
+IMU Node vMailBox 01
+- Interrupcion para sensado
+  - La lectura se delega a una cola de trabajo (work queue) dedicada.
+  - PAQUETE CON NO.SEC + QUAT + ACC + GYR + QUAT + ACC + GYR
+- BLE
+  - Solicita la actualización de parámetros de manera concurrente
+  - Comandos de inicio & stop mediante característica exercise_detection (indicate&write)
+- Siempre se intenta transmitir la ultima muestra!!!
+
+
+IMU_vMB01_E
+- Codigo modificado para usar OpenSenseRT (Computadora de Elizabeth)
+
+================================================================================
+
+IMU Node vMailBox 02
+- Interrupcion para sensado
+  - La lectura se delega a una cola de trabajo (work queue) dedicada.
+  - PAQUETE CON NO.SEC + QUAT + ACC + GYR + QUAT + ACC + GYR
+  - 2 samples per packet
+- BLE
+  - Comandos de inicio & stop mediante característica exercise_detection (indicate&write)
+- Siempre se intenta transmitir la ultima muestra!!!
+
+================================================================================
+
+IMU Node vMailBox 03
+- FALLO!!
+- Intento de aumento de la seguridad de la conexión: Bounding & encryptado
+
+================================================================================
+
+IMU Node vMailBox 04
+- Interrupcion para sensado
+  - La lectura se delega a una cola de trabajo (work queue) dedicada.
+  - PAQUETE CON NO.SEC + QUAT + ACC + GYR + QUAT + ACC + GYR
+  - 2 samples per packet
+- BLE
+  - Comandos de inicio & stop mediante característica WRITE!!!
+- Siempre se intenta transmitir la ultima muestra!!!
+
+la característica característica exercise_detection deja de ser "Write" y pasa a ser solo "indicate"
+
+PRIMERA VERSION FUNCIONAL!!!
+
+================================================================================
+
+IMU Node vMailBox 05
+Version 04 con:
+ - Secciones del sensor BNO comentadas.
+ - El paquete solo contiene el numero de paquete (lo demás son ceros)
+
+Para ocasiones en las que no se cuente con el BNO.
+
+================================================================================
+
+IMU Node vMailBox 06
+Version 05 con adicion de comandos en Write callback
+- Configurar timer
+- Stop pkt
+- ON/OFF características Tx.
+
+2DA VERSION FUNCIONAL - MEJORADA !!!
+Compatible con Central BLE v5
+
+================================================================================
+
+IMU Node vMailBox 07 SD (Save Data!)
+- Interrupcion para sensado
+  - La lectura se delega a una cola de trabajo (work queue) dedicada.
+  - PAQUETE CON NO.SEC + QUAT + ACC + GYR + QUAT + ACC + GYR
+  - 2 samples per packet
+- Secciones de BNO comentadas
+  - ENVIO DE DATOS GUADADOS (MOVIMIENTO SIMPLE)
+- BLE
+  - Comandos de inicio & stop mediante característica WRITE!!!
+- Siempre se intenta transmitir la ultima muestra!!!
+- comandos en Write callback
+  - Configurar timer
+  - Stop pkt
+  - ON/OFF características Tx.
+
+MB07 SD PBat (PRUEBAS BATERIA)
+- Version 07 SD SIN EL USO DE LED'S INDICADORES!!!
+
+MB07 SD Pruebas
+Basado en vMailBox 07 SD. Con:
+- Conteo de pkt de 1B
+- Envio de tiempo local del periferico en el que se hizo la transmisión
+
+================================================================================
+
+MB08 Sync
+- Adaptación a los nuevos comandos (No se uso)
+- Uso de un solo comando para el timer!!
+  - Timer 1 prende led
+  - Timer 2 apaga el led
+
+MB08_Sp0
+ - Se desconecta de central una vez termina de "sincronizarse"
+ - Conserva el timer activo tras desconexión
+
+================================================================================
+
+
+
+ 

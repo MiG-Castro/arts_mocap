@@ -1,0 +1,18 @@
+start: 7E0310FF01017F
+stop: 7E0310FF01007F
+
+Notas:
+.Para que funcione correctamente el timer de hadware con bateria se agrego la function: force_high_performance_mode en los perifericos, con esta se mantiene el modo Constant latency y se mantine activo el cristal.
+.Para que funcione correctamente el programa (especificamente la escritura con BLE), cuando seconectan mas de 6 nodos hay que cambiar estos parametros: 
+CONFIG_BT_CONN_TX_MAX=12
+CONFIG_BT_ATT_TX_COUNT=12
+CONFIG_BT_BUF_ACL_TX_SIZE=27
+CONFIG_BT_BUF_ACL_RX_COUNT=12
+CONFIG_BT_BUF_ACL_TX_COUNT=12
+De lo contrario, agregar un sleep entre cada envoi de paquete write
+
+.La version 20H, quedo funcional para 9 perifericos, con CI: 10 y CEL: 1, data_length: 30
+- Esta version envía cada 20H un paquete de 12 // 4 num pkt + 8 quat
+
+
+

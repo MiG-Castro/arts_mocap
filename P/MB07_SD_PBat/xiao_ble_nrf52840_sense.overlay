@@ -1,0 +1,49 @@
+/*
+ * Overlay para la placa Seeed XIAO BLE Sense
+ *
+ * 1. Desactiva los sensores integrados (IMU LSM6DS3 y Micrófono PDM).
+ * 2. Habilita la interfaz I2C1
+ * 3. Establece la velocidad del puerto serie (UART0) a 115200 baud.
+ */
+
+#include <zephyr/dt-bindings/pinctrl/nrf-pinctrl.h>
+
+/* Desactiva el nodo del sensor IMU en el bus I2C0 */
+&lsm6ds3tr_c {
+	status = "disabled";
+};
+
+/* Desactiva el periférico PDM del micrófono */
+&pdm0 {
+	status = "disabled";
+};
+
+/* 
+ * Desactiva los reguladores que encienden físicamente el IMU y el micrófono.
+ * Esto es importante para ahorrar energía.
+ * Se referencian por su ruta completa porque no tienen una etiqueta (label).
+ */
+/ {
+	lsm6ds3tr-c-en {
+		status = "disabled";
+	};
+
+	msm261d3526hicpm-c-en {
+		status = "disabled";
+	};
+};
+
+/* Habilita el periférico I2C1 */
+&i2c1 {
+	compatible = "nordic,nrf-twim";
+	status = "okay";
+	pinctrl-0 = <&i2c1_default>;
+	pinctrl-1 = <&i2c1_sleep>;
+	pinctrl-names = "default", "sleep";
+	clock-frequency = <I2C_BITRATE_FAST>; /* 400 kHz */
+};
+
+/* Establece la velocidad del puerto serie a 115200 */
+&uart0 {
+	current-speed = <115200>;
+};

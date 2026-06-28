@@ -1,0 +1,6 @@
+&uart0 {
+	/delete-property/ hw-flow-control;
+	current-speed = <115200>;
+};
+
+&timer2 {status = "okay";};

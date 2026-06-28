@@ -1,0 +1,105 @@
+CENTRAL BLE v2
+ Central para el servicio IMU, versión de depuración con aislamiento granular.
+ - Intento de multiconexion basado en semaforización
+ Basado en el ejemplo de througput
+ Incapaz de soportar multiconexion!!!
+ hace uso de shell
+
+================================================================================
+
+Central BLE v3
+ * Central para el servicio IMU - Arquitectura Asíncrona
+ * Funcional para multiconexion - Elemento clave "conn ctx" !!!
+ * Central hace todas las solicitudes de actulizacion de parametros
+ * Hace uso de shell
+ * Codigo fijo - Sin comunicacion UART
+
+================================================================================
+
+Central BLE v4
+ * Central para el servicio IMU - Arquitectura Asíncrona
+ * Funcional para multiconexion - Elemento clave "conn ctx" !!!
+ * Central hace todas las solicitudes de actulizacion de parametros
+ * Comunicacion UART 
+ * - Hilo de recepcion con maquina de stados & checksum
+ *   - Comandos & actualizacion de parametros
+ * - Funcion de uart_tx
+
+================================================================================
+
+Central BLE v5
+ * Central para el servicio IMU - Arquitectura Asíncrona
+ * Funcional para multiconexion - Elemento clave "conn ctx" !!!
+ * Central hace todas las solicitudes de actulizacion de parametros
+ * Comunicacion UART 
+ * - Hilo de recepcion con maquina de stados & checksum
+ *   - ADICION DE +COMANDOS DE CONTROL!!!
+ * - Funcion de uart_tx
+
+Primera version funcional !!! - Compatible con IMU Node vMailBox 06
+================================================================================
+
+Central BLE v6 p
+ * Central para el servicio IMU - Arquitectura Asíncrona
+ * Funcional para multiconexion - Elemento clave "conn ctx" !!!
+ * Central hace todas las solicitudes de actulizacion de parametros
+ * Comunicacion UART 
+ * - Hilo de recepcion con maquina de stados & checksum
+ * - Funcion de uart_tx
+ * Pruebas de tiempo de Rx-pkts con LOGs 
+
+Central BLE v6 p0
+ * Central para el servicio IMU - Arquitectura Asíncrona
+ * Funcional para multiconexion - Elemento clave "conn ctx" !!!
+ * Central hace todas las solicitudes de actulizacion de parametros
+ * Comunicacion UART 
+ * - Hilo de recepcion con maquina de stados & checksum
+ * - Funcion de uart_tx
+ * Pruebas de tiempo de Rx-pkts
+ * - Retransmisiones ciclicas
+ * - Conteo de tiempo con LOGs y/o k_uptime_get (ms)
+
+C06 p1
+FALLO!!!
+Intento de usar UART Async & DMA para que se maneje de manera independiente y paralelamente la comunicación UART
+
+C06 p2
+ * Central para el servicio IMU - Arquitectura Asíncrona
+ * Funcional para multiconexion - Elemento clave "conn ctx" !!!
+ * Central hace todas las solicitudes de actulizacion de parametros
+ * Comunicacion UART
+ * - Hilo para Rx & Hilo para Tx - NO CHECKSUM!!
+ * Reestructuración de uso de variables globales para ser congruentes con las definiciones de las estructuras de BLE
+ * Ampliacion de la configuracion de prj.conf
+
+================================================================================
+Como hubo muchas versiones 6 ... la version 7 no existe 
+================================================================================
+
+C08 Sync
+ * Central para el servicio IMU - Arquitectura Asíncrona
+ * Funcional para multiconexion - Elemento clave "conn ctx" !!!
+ * Central hace todas las solicitudes de actulizacion de parametros
+ * Comunicacion UART
+ * - Hilo para Rx & Hilo para Tx - NO CHECKSUM!!
+ * Reestructuración de uso de variables globales para ser congruente con las definiciones|estructuras de BLE
+ * 
+ * Adicion de rutina de sincronizacion
+ * - Central hace el primer Write en la funcion de descubrimiento de servicios
+ * - Rutina de syncronizacion de callback de ACK
+
+C08 Sync p0
+ * Adicion de rutina de sincronizacion
+ * - El periferico inicia el proceso de sync con una "Indicacion"
+ * - Rutina de syncronizacion en un callback aparte
+ * - CAMBIO EN LOS COMANDOS!!!
+
+C08_Sp1
+ * - Proceso de sincronización inicia en callback "notify"
+
+NOTAS
+- Al conectar mas de 2 periféricos, en el scheduler el callback de notify-ACK varia mucho de su recepción a bajo nivel (en el orden de varios ms)
+- El conectar un periféricos -> sincronizarlo -> desconectarlo, NO LIBERA DE TRABAJO AL SCHEDULER, el callback notify-ack sigue variando en varios ms.
+Moraleja: NO INTENTAR SINCRONIZAR DESDE CAPA DE APP - SCHEDULER CON RETARDOS VARIABLES.
+
+

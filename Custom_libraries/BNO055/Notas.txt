@@ -1,0 +1,12 @@
+BNO055
+- Ejemplo de uso crudo
+
+BNO055_library_v0
+- Ejemplo de uso de librería (revisar si usa la ultima version de la librería)
+
+librería
+- Archivos .c y .h
+
+
+Agregar zephyr,concat-buf-size = <32>; en &i2c1 
+Para poder escribir +22 bytes seguidos en registros

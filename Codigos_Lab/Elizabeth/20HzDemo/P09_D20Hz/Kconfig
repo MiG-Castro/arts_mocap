@@ -1,0 +1,20 @@
+# Kconfig - Archivo de configuración para el proyecto Xiao_IMU_Node
+source "Kconfig.zephyr"
+
+mainmenu "Application Configuration"
+
+# Define una nueva opción de configuración
+config DESIRED_MIN_CONN_INTERVAL
+    # Tipo de dato: entero (integer)
+    int "Desired minimum connection interval"
+    # Valor por defecto si no se especifica en prj.conf
+    default 6
+    # Texto de ayuda que explica para qué sirve esta opción
+    help
+      This sets the desired minimum connection interval in units of 1.25 ms that the peripheral will request after connection.
+
+config DESIRED_MAX_CONN_INTERVAL
+    int "Desired maximum connection interval"
+    default 6
+    help
+      This sets the desired maximum connection interval in units of 1.25 ms that the peripheral will request after connection.

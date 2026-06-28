@@ -1,0 +1,17 @@
+nrfConnect
+Ctrl + Shift + Alt + B pristine build
+Ctrl + b -> b build
+
+ctrl + alt + N -> nrf
+
+ctrl + Ñ -> terminal
+
+ctrl + shift + n -> new window
+ctrl + shift + w -> close window
+ctrl + B -> close 
+ctrl + s -> Serial monitor
+ctrl + j -> open panel
+
+ctrl + m -> m (toggle max panel)
+
+Alt + F4 MENU COMPLETO DE OPCIONES DE APAGADO DE W11

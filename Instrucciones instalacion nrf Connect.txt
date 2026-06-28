@@ -1,0 +1,16 @@
+Instrucciones instalacion nrf Connect en VSC
+
+Tutorial de Nordic: https://www.youtube.com/watch?v=EAJdOqsL9m8
+Ejemplo de Xiao Arduino-nrf Connect (minuto 10:20): https://www.youtube.com/watch?v=CPi44L0uzmo&t=701s
+
+En add Bluid Configuration
+Seleccionar misma version de SDK y toochain
+Seleccionar board: xiao_ble/nrf52840...
+
+IMPORTANTE, en System Build -> SELECCIONAR "NO SYSBUILD" (para zephyr 3.0.1)
+
+en caso de que el archivo kconfig.defconfig no lo tenga
+agregar: CONFIG_BUILD_OUTPUT_UF2=y 
+Esto generara el archivo uf2 al hacer el build
+
+el archivo zephyr.uf2 estara ubicado dentro de la carpeta de la app en \build\zephyr\

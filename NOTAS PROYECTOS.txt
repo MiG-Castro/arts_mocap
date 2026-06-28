@@ -1,0 +1,15 @@
+Proyectos
+
+Todos los proyectos se compilaron/programaron con el SDK&toochain 3.0.1
+
+AGREGAR ARCHIVO xiao_ble_nrf52840_sense.overlay si se desea:
+- Desactivar los sensores integrados del xiao
+- Habilitar i2c1
+- configurar baud-rate comunicación serial
+
+NOTA: Esto también se puede hacer modificando el archivo xio_ble_nrf52840_sense.dts
+      SIN EMBARGO ESTE ES EL ARCHIVO DEL SDK. LAS CONFIGURACIONES QUE SE LE APLIQUEN
+      SE APLICARAN A TODOS LOS PROYECTOS QUE USEN EL BOARD xio_ble_nrf52840_sense.
+                            ¡NO ES UNA BUENA PRACTICA!
+      
+      Los archivos .overlay modifican el devicetree para cada proyecto. Es mas seguro!

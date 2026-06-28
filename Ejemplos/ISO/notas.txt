@@ -1,0 +1,106 @@
+Ejemplos de zephyr 3.0.1:
+- Bluetooth ISO Broadcaster - zephyr/samples/bluetooth/iso_broadcast
+- Bluetooth Synchronized Receiver - zephyr/samples/bluetooth/iso_receive
+
+MODIFICADOS -> SIMPLIFICADOS !!!
+- El clock del ISO (controller "info->ts") es diferente al los ticks de zephyr k_cycle_get_32(); (diferencia de ~0.5s)
+
+Otros ejemplos:
+nrf
+- ISO time sync     (no se pudo configurar xiao_nrf52840 como central-tx) 
+- ISO CIS-BIS       (probado -> funciona en xiao_nrf52840)
+
+Zephyr
+- ISO Connected
+- ISO Broadcast
+- ISO central (client) sample     (probado -> funciona en xiao_nrf52840)
+- ISO peripheral (server) sample  (probado -> funciona en xiao_nrf52840)
+
+*************************************************************************************
+BT 5.2 core specification
+Isochronous Channel
+
+1. Flujos Isócronos Conectados (CIS)
+comunicación uno a uno y requiere una conexión BLE (ACL)
+Roles:
+
+Central (CIS Central): El dispositivo que inicia y gestiona la conexión (por ejemplo, un smartphone).
+Peripheral (CIS Peripheral): El dispositivo que acepta la conexión (por ejemplo, un auricular).
+Agrupación (CIG): Múltiples flujos CIS pueden agruparse en un Grupo Isócrono Conectado (CIG).
+
+2. Flujos Isócronos de Difusión (BIS)
+uno a muchos (broadcast) y es sin conexión
+Permite a un único dispositivo transmitir datos a un número ilimitado de receptores que se sincronicen con la transmisión.
+El flujo es estrictamente unidireccional.
+
+Roles
+Isochronous Broadcaster (Emisor BIS): El dispositivo que emite el flujo de datos
+Synchronized Receiver (Receptor BIS): Cualquier dispositivo que escanea y se "sintoniza" con el flujo de datos
+Agrupación (BIG): Múltiples flujos BIS se agrupan en un Grupo Isócrono de Difusión (BIG).
+
+Términos - parámetros
+- SDU: Unidades de Datos de Servicio
+- Max_Transport_Latency (Latencia Máxima de Transporte): "tiempo de vida" en milisegundos que tiene un SDU para ser entregado.
+- RTN (Número de Retransmisión): El número de veces que un paquete puede ser retransmitido.
+- SDU_Interval: El intervalo de tiempo fijo (en microsegundos) en el que se envían nuevos datos.
+- PHY: La capa física que se utilizará.
+- Framing (Trama): Define si los datos se envían "enmarcados" (con una cabecera definida) o "sin enmarcar". 0 - unframed (sin trama) o 1 - framed (con trama).
+
+BIS -------------------------------------------------------------------------------------------------------------------
+Parámetros BIS:
+- NSE (Number of Subevents): Divide el intervalo de transmisión en sub-eventos más pequeños para distribuir la carga.
+- BN (Burst Number): Cuántos paquetes nuevos se envían en cada evento de transmisión.
+- IRC (Immediate Repetition Count): Cuántas veces se repite inmediatamente un paquete dentro del mismo evento.
+
+- info->ts: timestamp del CONTROLLER local del receptor
+- info->seq_num: Numero de secuencia (definido por el broadcaster)
+
+Adv & Broadcaster|receiver
+- Broadcaster envía Extended Advertising primero (como "anuncio" del PA)
+- Luego envía trenes periódicos predecibles de paquetes AUX_SYNC_IND
+- Receiver puede sincronizarse al tren periódico
+- Timing predecible: el receiver sabe exactamente cuándo llegará el siguiente paquete
+
+**Relación con BIS:**
+- El BIS NO puede existir sin PA
+- El PA **transporta** la información del BIG (BIG Info)
+- Los receptores primero se sincronizan al PA, luego leen BIG Info, luego se sincronizan al BIS
+
+El PA establece un anchor point temporal
+Todos los eventos BIS están offset relativo a este anchor
+Por eso el BIS puede tener timing tan preciso
+
+_________________________________________________________________________________________________________________
+| Concepto                 | Propósito                                      | Precisión Temporal                |
+=================================================================================================================
+| **Extended Advertising** | Anunciar existencia de PA                      | No crítico (~ms)                  |
+| **Periodic Advertising** | Sincronización temporal + transportar BIG Info | ~10µs (controller)                |
+| **BIS Stream**           | Datos isócronos sincronizados                  | ~1µs (controller timestamp)       |
+| **info->ts**             | Timestamp local del receptor al recibir        | ±1µs                              |
+
+**Analogía útil:**
+- Extended Advertising = Poster en la calle que dice "Concierto cada viernes 8pm"
+- Periodic Advertising = Email semanal recordatorio "Concierto hoy 8pm, sala 3"
+- BIS = El concierto en sí (streaming de audio/datos)
+
+### **BIG Info (Metadata)**
+- Es un **paquete de información** transmitido en el PA
+- Describe los parámetros del BIG
+- Permite a los receptores saber cómo sincronizarse al BIG
+
+- num_bis: Cuántos BIS tiene el BIG
+- sub_evt_count (NSE): Subeventos por intervalo
+- iso_interval: Intervalo entre eventos BIG
+- burst_number (BN): Ráfagas por intervalo
+- pto (Pre-Transmission Offset): Offset de transmisión
+- irc (Immediate Repetition Count): Repeticiones
+- max_pdu: Tamaño máximo de PDU
+- sdu_interval: Intervalo entre SDUs
+- max_sdu: Tamaño máximo de SDU
+- phy: PHY usado (1M, 2M, Coded)
+- framing: Con o sin framing
+- encryption: Si está encriptado
+- seed_access_address: Dirección de acceso
+- base_crc_init: Inicialización CRC
+- num_bis: Número de BIS
+- bis_spacing: Espaciado entre BIS
