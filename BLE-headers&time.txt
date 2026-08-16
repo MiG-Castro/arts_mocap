@@ -18,5 +18,3 @@ Paquete de ACK -> empty PDU
 10 header (1 + 4 + 3 + 2) = 80us
 
 IFS = 150us
-
-

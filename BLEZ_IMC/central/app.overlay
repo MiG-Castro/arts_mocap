@@ -1,0 +1,6 @@
+// UART configuration
+&uart0 {
+     /delete-property/ hw-flow-control;
+    // current-speed = <230400>; // Baud rate
+    current-speed = <1000000>; // Baud rate
+};

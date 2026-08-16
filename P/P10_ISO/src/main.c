@@ -52,10 +52,14 @@ struct bt_conn *my_conn = NULL;
 // FB:5C:2A:77:77:0A (Random) -> Pasar en lista en Big Endian
 static const bt_addr_le_t target_addr = {
     .type = BT_ADDR_LE_RANDOM, // O BT_ADDR_LE_PUBLIC si es pública
+	// .a = {.val = {0x, 0x, 0x, 0x, 0x, 0x}}
 	// .a = {.val = {0xC3, 0xFB, 0xF6, 0xBA, 0xC4, 0xCD}}
-    .a = {.val = {0x0A, 0x77, 0x77, 0x2A, 0x5C, 0xFB}}
+    // .a = {.val = {0x0A, 0x77, 0x77, 0x2A, 0x5C, 0xFB}}
 	// .a = {.val = {0x2C, 0xEB, 0x6B, 0x4F, 0x8A, 0xF3}}
 	// .a = {.val = {0xB3, 0x1C, 0x96, 0xB9, 0xCC, 0xE5}}
+	// .a = {.val = {0xAF, 0xA4, 0xDE, 0x47, 0x9B, 0xC6}}
+	.a = {.val = {0x86, 0xD4, 0x3C, 0x99, 0x28, 0xFA}}
+	// .a = {.val = {0xDA, 0x37, 0x2B, 0x40, 0x58, 0xD3}}
 };
 
 // Advertising parameters strcture
@@ -188,8 +192,7 @@ static uint8_t motion_pkt[624];
 //                         FUNCIONES MUESTREO Y ENVIO
 //================================================================================
 // Función leer sensor y empaquetar datos
-static void sensor_work_handler(struct k_work *work)
-{
+static void sensor_work_handler(struct k_work *work) {
 	static uint8_t sample_taken[SAMPLE_SIZE] = {0}, packet_in_progress[PACKET_SIZE] = {0};
 	static uint8_t indx_pos, temporal_sample_counter;
 

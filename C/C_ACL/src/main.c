@@ -88,7 +88,7 @@ static struct bt_conn_le_phy_param *g_phy_param_1M = BT_CONN_LE_PHY_PARAM_1M;
 // CI: N x 1.25ms, latency = N x CI, timeout = N x 10ms
 static uint16_t conn_interv_N = 10, latency_N = 3, timeout_N = 100;
 // Values to set in the data length
-static uint16_t data_length = 73, tx_time_us = 800; // DL = desired value + 7B of headers
+static uint16_t data_length = 73, tx_time_us = 2088; // DL = desired value + 7B of headers
 // Structure for the MTU (the MTU is defined in the prj.conf)
 static struct bt_gatt_exchange_params exchange_params;
 
